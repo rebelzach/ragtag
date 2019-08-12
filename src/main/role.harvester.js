@@ -43,11 +43,15 @@ var roleHarvester = {
                     return -1;
                 return 1;
             });
-            var closestStructure = creep.pos.findClosestByPath(structures);
-            var targets = buildersWithNeed.concat([closestStructure]);
-            if(targets.length > 0) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+            if(buildersWithNeed.length || structures.length) {
+                var target;
+                if (buildersWithNeed.length)
+                    target = creep.pos.findClosestByPath(buildersWithNeed);
+                else
+                    target = creep.pos.findClosestByPath(structures);
+
+                if(creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }

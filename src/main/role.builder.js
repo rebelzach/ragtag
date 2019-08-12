@@ -1,7 +1,7 @@
 var roleBuilder = {
     run: function(creep) {
         if(creep.memory.building && creep.carry.energy == 0) {
-            //creep.memory.building = false;
+            creep.memory.building = false;
             creep.say('Waiting');
         }
         
@@ -22,7 +22,7 @@ var roleBuilder = {
             if(lowDamageTargets.length > 0) {
                 var target = creep.pos.findClosestByPath(lowDamageTargets);
                 if(creep.repair(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#00ff00'}});
                 }
                 return; // this is the only thing we will do this tick
             }
@@ -37,17 +37,18 @@ var roleBuilder = {
                     return 1;
                 });
             if(targets.length) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                var target = creep.pos.findClosestByPath(targets);
+                if(creep.build(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#0000ff'}});
                 }
             }
         }
         else {
-            var sources = creep.room.find(FIND_SOURCES);
-            var harvestResult = creep.harvest(sources[0]);
-            if(harvestResult == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            }
+            // var sources = creep.room.find(FIND_SOURCES);
+            // var harvestResult = creep.harvest(sources[0]);
+            // if(harvestResult == ERR_NOT_IN_RANGE) {
+            //     creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            // }
         }
     }
 };

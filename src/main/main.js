@@ -11,6 +11,10 @@ module.exports.loop = function () {
         }
     }
     
+    // Game.spawns[Object.keys(Game.spawns)[0]].spawnCreep([WORK,WORK,CARRY,MOVE],"Brutus");
+    //console.log(Game.getObjectById('5d518e113b552d6389ff657e').dismantle(Game.getObjectById('5d507e21faa5942fbc340414')));
+    //console.log(Game.getObjectById('5d518e113b552d6389ff657e').moveTo(new RoomPosition(7,8,'W13N3')));
+    
     // Decide if we need units
     var initialPhaseComplete = true;
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
@@ -31,7 +35,7 @@ module.exports.loop = function () {
     if (initialPhaseComplete) {
         if (harvesters.length < 10) {
             spawnHarvester();
-        } else if (builders.length < 2){
+        } else if (builders.length < 4){
             spawnBuilder();
         } else if (maintenance.length < 6){
             spawnMaintenance();
