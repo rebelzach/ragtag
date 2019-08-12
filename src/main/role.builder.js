@@ -44,11 +44,11 @@ var roleBuilder = {
             }
         }
         else {
-            // var sources = creep.room.find(FIND_SOURCES);
-            // var harvestResult = creep.harvest(sources[0]);
-            // if(harvestResult == ERR_NOT_IN_RANGE) {
-            //     creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
-            // }
+            var sources = creep.room.find(FIND_SOURCES);
+            var harvestResult = creep.harvest(sources[0]);
+            if(harvestResult == ERR_NOT_IN_RANGE) {
+                creep.moveTo(sources[0], {visualizePathStyle: {stroke: '#ffaa00'}});
+            }
         }
     }
 };

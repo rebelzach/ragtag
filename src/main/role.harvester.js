@@ -21,11 +21,12 @@ var roleHarvester = {
         }
         else 
         {
-            var buildersWithNeed = creep.room.find(FIND_MY_CREEPS, {
-                filter: (someCreep) => {
-                    return someCreep.memory.role === 'builder' && someCreep.carry.energy < someCreep.carryCapacity;
-                }
-            })
+            var buildersWithNeed = [];
+            // creep.room.find(FIND_MY_CREEPS, {
+            //     filter: (someCreep) => {
+            //         return someCreep.memory.role === 'builder' && someCreep.carry.energy < someCreep.carryCapacity;
+            //     }
+            // })
             var structures = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     if ((structure.structureType == STRUCTURE_EXTENSION || 
