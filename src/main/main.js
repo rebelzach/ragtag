@@ -1,5 +1,6 @@
 var roleHarvester = require('role.harvester');
 var roleBuilder = require('role.builder');
+var roleMaintenance = require('role.maintenance');
 
 module.exports.loop = function () {
     
@@ -12,7 +13,7 @@ module.exports.loop = function () {
     
     // Decide if we need units
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
-    if (harvesters.length < 2) {
+    if (harvesters.length < 5) {
         console.log("Spawning Harvester");
         var newName = 'Harvester' + Game.time;
         Game.spawns[Object.keys(Game.spawns)[0]].spawnCreep(
@@ -22,13 +23,22 @@ module.exports.loop = function () {
     }
     else {
         var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
-        if (builders.length < 1) {
+        if (builders.length < 2) {
             console.log("Spawning Builder");
             var newName = 'Builder' + Game.time;
             Game.spawns[Object.keys(Game.spawns)[0]].spawnCreep(
-                [WORK,CARRY,MOVE],
+                [WORK,WORK,CARRY,MOVE],
                 newName,
                 {memory: {role: 'builder'}});
+        }
+        var maintenance = _.filter(Game.creeps, (creep) => creep.memory.role == 'maintenance');
+        if (builders.length < 2) {
+            console.log("Spawning Maintenance");
+            var newName = 'Maintenance' + Game.time;
+            Game.spawns[Object.keys(Game.spawns)[0]].spawnCreep(
+                [WORK,WORK,CARRY,MOVE],
+                newName,
+                {memory: {role: 'maintenance'}});
         }
     }
 

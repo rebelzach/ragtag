@@ -2,12 +2,12 @@ var roleHarvester = {
     run: function(creep) {
         if(!creep.memory.harvesting && creep.carry.energy == 0) {
             creep.memory.harvesting = true;
-            creep.say('🚧 harvesting');
+            creep.say('harvesting');
         }
         
         if(creep.memory.harvesting && creep.carry.energy == creep.carryCapacity) {
             creep.memory.harvesting = false;
-            creep.say('💩 dumping');
+            creep.say('dumping');
         }
         
         if(creep.memory.harvesting) {
@@ -19,8 +19,14 @@ var roleHarvester = {
                 }
             }
         }
-        else {
-            var targets = creep.room.find(FIND_STRUCTURES, {
+        else 
+        {
+            var buildersWithNeed = creep.room.find(FIND_MY_CREEPS, {
+                filter: (someCreep) => {
+                    return someCreep.memory.role === 'builder' && someCreep.carry.energy < someCreep.carryCapacity;
+                }
+            })
+            var structures = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     if ((structure.structureType == STRUCTURE_EXTENSION || 
                         structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity) {
@@ -37,6 +43,8 @@ var roleHarvester = {
                     return -1;
                 return 1;
             });
+            var closestStructure = creep.pos.findClosestByPath(structures);
+            var targets = buildersWithNeed.concat([closestStructure]);
             if(targets.length > 0) {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
