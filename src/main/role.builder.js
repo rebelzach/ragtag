@@ -11,7 +11,24 @@ var roleBuilder = {
         }
 
         if(creep.memory.building) {
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES)
+            // First check for highly damaged nearby structures
+            // and repair them
+            var lowDamageTargets = creep.room.find(FIND_MY_STRUCTURES)
+                .filter((a) => {
+                    return a.structureType === STRUCTURE_WALL || a.structureType === STRUCTURE_RAMPART;
+                })
+                .filter(t => t.hits < 900);
+
+            if(lowDamageTargets.length > 0) {
+                var target = creep.pos.findClosestByPath(lowDamageTargets);
+                if(creep.repair(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
+                }
+                return; // this is the only thing we will do this tick
+            }
+            
+            // Do building
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES)
                 .sort((a, b) => {
                     if (a.structureType === STRUCTURE_WALL)
                         return -1;

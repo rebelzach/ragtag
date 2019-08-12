@@ -22,12 +22,18 @@ var roleMaintenance = {
         else 
         {
             var targets = creep.room.find(FIND_MY_STRUCTURES)
-                .filter((structure) => {
+                .filter((a) => {
                     return a.structureType === STRUCTURE_WALL || a.structureType === STRUCTURE_RAMPART;
-                });
+                })
+                .sort((a,b) => a.hits - b.hits);
+                
             if(targets.length > 0) {
-                if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0], {visualizePathStyle: {stroke: '#ffffff'}});
+                var lowDamageTargets = targets.filter(t => t.hits < 900);
+                var target = targets[0];
+                if(lowDamageTargets.length)
+                    target = creep.pos.findClosestByPath(lowDamageTargets);
+                if(creep.repair(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target, {visualizePathStyle: {stroke: '#ffffff'}});
                 }
             }
         }
